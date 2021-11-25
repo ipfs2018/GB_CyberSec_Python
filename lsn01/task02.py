@@ -3,6 +3,8 @@
 # Используйте форматирование строк.
 
 sec_time = int(input("Enter int number of secs:"))
+sec_time=sec_time%86400
+
 h = sec_time // 3600
 m = sec_time % 3600 // 60
 s = sec_time % 3600 % 60
