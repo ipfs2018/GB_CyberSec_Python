@@ -18,15 +18,27 @@ class Matrix:
 
     def __str__(self):
         matrix_str = ''
-        for row in self.list:
-            for val in row:
-                matrix_str = matrix_str + f'{val:5}' + ' '
-            matrix_str = matrix_str + '\n'
-        return matrix_str
+        if isinstance(self.list, list):
+            for row in self.list:
+                print(f'TP row={row}')
+                for val in row:
+                    print(f'TP val={val}')
+                    matrix_str = matrix_str + f'{val:5}' + ' '
+                matrix_str = matrix_str + '\n'
+            return matrix_str
+        elif isinstance(self.list, map):
+            print(f'жопито!')
+        else:
+            print(f'TP>>> case ELSE')
+            pass
 
     def __add__(self, other):
-        result = list(map(sum, zip(*i)) for i in zip(self.list, other.list))
-        print(result)
+        result=[]
+        tmp = [map(sum, zip(*i)) for i in zip(self.list, other.list)]
+        for row in tmp:
+            for val in row:
+                result.append(val)
+
         return result
 
 
@@ -36,13 +48,17 @@ B_list = [[1, 2], [3, 4]]
 A = Matrix(A_list)
 B = Matrix(B_list)
 
-print(A)
-print(B)
+#print(A)
+#print(B)
 
 C = A + B
 print(C)
+print(type(C))
+'''
 print(f'Print C in for cycle:')
+
 for row in C:
     for val in row:
         print(f'{val:5}', end='')
     print()
+'''
