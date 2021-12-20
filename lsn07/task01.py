@@ -20,25 +20,21 @@ class Matrix:
         matrix_str = ''
         if isinstance(self.list, list):
             for row in self.list:
-                print(f'TP row={row}')
                 for val in row:
-                    print(f'TP val={val}')
                     matrix_str = matrix_str + f'{val:5}' + ' '
                 matrix_str = matrix_str + '\n'
             return matrix_str
-        elif isinstance(self.list, map):
-            print(f'жопито!')
         else:
-            print(f'TP>>> case ELSE')
-            pass
+            print(f'Что-то пошло не так.')
+            return None
 
     def __add__(self, other):
-        result=[]
-        tmp = [map(sum, zip(*i)) for i in zip(self.list, other.list)]
-        for row in tmp:
+        result = []
+        for row in [map(sum, zip(*i)) for i in zip(self.list, other.list)]:
+            tmp = []
             for val in row:
-                result.append(val)
-
+                tmp.append(val)
+            result.append(tmp)
         return result
 
 
@@ -47,18 +43,7 @@ B_list = [[1, 2], [3, 4]]
 
 A = Matrix(A_list)
 B = Matrix(B_list)
+C = Matrix(A + B)
 
-#print(A)
-#print(B)
-
-C = A + B
-print(C)
-print(type(C))
-'''
-print(f'Print C in for cycle:')
-
-for row in C:
-    for val in row:
-        print(f'{val:5}', end='')
-    print()
-'''
+print(f'A:\n{A}\n+\nB:\n{B}\n=\n')
+print(f'Результирующая матрица С:\n{C}')
