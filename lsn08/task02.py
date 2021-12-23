@@ -3,3 +3,25 @@
 Проверьте его работу на данных, вводимых пользователем.
 При вводе пользователем нуля в качестве делителя программа должна корректно обработать эту ситуацию и не завершиться с ошибкой.
 '''
+
+
+class OwnDivZero(Exception):
+    def __init__(self, txt):
+        self.text = txt
+
+
+while True:
+    a = 9
+    b = input('Введите число:')
+    try:
+        if b == '0':
+            raise OwnDivZero("На ноль делить нельзя.")
+        elif b == 'Q':
+            break
+        else:
+            print(f'Результат деления a={a} на b={b}: {float(a) / float(b)}')
+    except ValueError:
+        print("Вы ввели не число")
+    except OwnDivZero as err:
+        print(err)
+    print('-------------- Для выхода из программы введите вместо числа "Q" --------------')
