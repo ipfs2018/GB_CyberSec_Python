@@ -12,3 +12,30 @@
  Класс-исключение должен не позволить пользователю ввести текст (не число) и отобразить соответствующее сообщение.
   При этом работа скрипта не должна завершаться.
 '''
+
+
+class DigitTypeError(Exception):
+
+    @staticmethod
+    def digit_or_str(value: str):
+        if value.isdigit():
+            return value
+        elif value == 'stop':
+            return 'stop'
+        else:
+            raise DigitTypeError('Нужно вводить числа, но не буквы или символы.')
+
+
+result_list = []
+while True:
+    try:
+        user_input = DigitTypeError.digit_or_str(input('Введите число:'))
+        if user_input != 'stop':
+            result_list.append(user_input)
+            print(f'--------- Для завершения программы введите "stop". ----------')
+        else:
+            print('Результат: ', end='')
+            print(*result_list)
+            break
+    except DigitTypeError as err:
+        print(err)
