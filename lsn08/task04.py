@@ -13,16 +13,41 @@ class Warehouse:
     def __init__(self, capacity: int = 10):
         self._warehouse_dict = {}
         self.capacity = capacity
+        print(f'Создан склад на {self.capacity} мест.\n')
 
-    def add_to(self, OfficeEquipment: list):
-        self.OfficeEquipment = OfficeEquipment
-        self._warehouse_dict.setdefault(self.OfficeEquipment.name, []).append(OfficeEquipment)
-        self.capacity -= 1
+    def add_to(self, OffEquips: str, q: int):
+        self.OffEquips = OffEquips
+        self.q = q
+        tmp = tuple(str(OffEquips).split(sep='-'))
 
-    def take_from(self, param: str):
-        if self._warehouse_dict[param]:
-            self._warehouse_dict.setdefault(param).pop(0)
-        self.capacity += 1
+        if (self.capacity - q) >= 0 and self.capacity >= 0:
+            self._warehouse_dict.setdefault(self.OffEquips.name, [])
+            self._warehouse_dict.update({self.OffEquips.name: [tmp, q]})
+            self.capacity -= q
+            print(
+                f'Оборудование {tmp[1]}:{tmp[0]} в количестве {q} успешно размещено на складе.\nНа складе свободно {self.capacity} мест.\n')
+        elif self.capacity <= 0:
+            print(f'Невозможно разместить оборудование {tmp[1]}:{tmp[0]} в количестве {q} на складе: нет свободного места.\n')
+            self.capacity = 0
+        else:
+            self._warehouse_dict.setdefault(self.OffEquips.name, [])
+            self._warehouse_dict.update({self.OffEquips.name: [tmp, self.capacity]})
+            print(
+                f'Оборудование {tmp[1]}:{tmp[0]} в количестве {self.capacity} успешно размещено на складе.\n На складе свободно 0 мест.\n')
+            self.capacity = 0
+
+    def move_to(self, name_eq: str, q: int, department: str):
+        self.name_eq = name_eq
+        self.department = department
+        self.q = q
+        if self._warehouse_dict[name_eq]:
+            # self._warehouse_dict.setdefault(name_eq).pop(0)
+            tmp=self._warehouse_dict.get(name_eq)
+            tmp[1]-=q
+            # print(f'move_to print>>>{tmp}')
+
+        self.capacity += q
+        print(f'Оборудование {self.name_eq} в количестве {self.q} передано в {self.department}.\n На складе {self.capacity} свободных мест.')
 
 
 class OfficeEquipment:
@@ -68,7 +93,7 @@ class Copier(OfficeEquipment):
     def do(self):
         return 'Делает копии документов.'
 
-
+W = Warehouse(10)
 P = Printer('color1234', 'HP', '2000', True)
 S = Scanner('z077', 'Zebra', '2020', '800x600')
 C = Copier('mf333', 'Canon', '1999', 15)
@@ -77,10 +102,16 @@ print(f'Устройство {C}.\n{C.do}\nСкорость копировани
 print(f'Устройство {P}.\n{P.do}\nДвустронняя печать: {P.duplex}.\n')
 print(f'Устройство {S}.\n{S.do}\nРазрешение: {S.resolution} точек/дюйм.\n')
 
-W = Warehouse(20)
-W.add_to(P)
-W.add_to(S)
-print(f'{W._warehouse_dict} осталось свободных мест на складе:{W.capacity}')
 
-W.take_from('color1234')
-print(f'{W._warehouse_dict} осталось свободных мест на складе:{W.capacity}')
+W.add_to(P, 4)
+W.add_to(S, 3)
+W.add_to(C, 6)
+# print(f'TP >>> {W._warehouse_dict} осталось свободных мест на складе:{W.capacity}')
+
+W.move_to('color1234',2,'АСУ')
+# print(f'TP >>> {W._warehouse_dict} осталось свободных мест на складе:{W.capacity}')
+for item in W._warehouse_dict.items():
+    tmp=list(item)
+    # print(tmp[0])
+    for each in tmp:
+        print(each)
