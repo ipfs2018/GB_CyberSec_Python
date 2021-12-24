@@ -15,7 +15,6 @@ class Warehouse:
         self.capacity = capacity
         print(f'Создан склад на {self.capacity} мест.')
 
-
     def name_at_warehouse(self, list_from_dict: tuple):
         # tmp1 = list(list_from_dict)
         tmp2 = list_from_dict[1]
@@ -58,6 +57,7 @@ class Warehouse:
                 self.capacity = 0
         except TypeError:
             print(f'!!! Ошибка при задании W.add_to: аргумент количество должен быть типа int.!!!')
+
     def move_to(self, name_eq: str, q: int, department: str):
         self.name_eq = name_eq
         self.department = department
@@ -85,6 +85,7 @@ class Warehouse:
                     self._warehouse_dict.pop(name_eq)
         except KeyError:
             print(f'!!! Ошибка в W.move_to: оборудование {self.name_eq} на складе отсутствует. !!!')
+
 
 class OfficeEquipment:
     name: str
